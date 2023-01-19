@@ -1,6 +1,7 @@
 package br.com.wesjon.testworkshopjan2023
 
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class PasswordValidatorTest {
@@ -12,4 +13,29 @@ class PasswordValidatorTest {
 
         assertFalse(result)
     }
+
+    @Test
+    fun givenPasswordIsALeastOneCharacterIsUppercase_shouldReturnTrue(){
+        val result = passwordValidator.isUppercase("Samanta")
+        assertTrue(result)
+    }
+
+    @Test
+    fun givenPasswordIsALeastOneCharacterIsLowercase_shouldReturnTrue(){
+        val result = passwordValidator.isLowerCase("Amelia")
+        assertTrue(result)
+    }
+
+    @Test
+    fun givenPasswordIsALeastOneCharacterIsNumber_shouldReturnTrue(){
+        val result = passwordValidator.isNumber("Paulinho13")
+        assertTrue(result)
+    }
+
+    @Test
+    fun givenPasswordIsALeastOneCharacterIsSpecialCharacter_shouldReturnTrue(){
+        val result = passwordValidator.isSpecialCharacter("Vinicius@13")
+        assertTrue(result)
+    }
+
 }
