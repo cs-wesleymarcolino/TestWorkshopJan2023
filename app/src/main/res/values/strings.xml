@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">TestWorkshopJan2023</string>
+    <string name="error_empty_email">Email vazio</string>
+    <string name="error_empty_password">Senha vazia</string>
 </resources>
