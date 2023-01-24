@@ -15,34 +15,61 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen() {
+fun MainScreen(onClick: (email: String, password: String) -> Unit) {
+    MainScreenContent(onClick)
+}
+
+@Composable
+@OptIn(ExperimentalMaterial3Api::class)
+private fun MainScreenContent(onClick: (email: String, password: String) -> Unit) {
     var emailField by remember { mutableStateOf("") }
     var passwordField by remember { mutableStateOf("") }
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 32.dp),
+            .padding(top = 32.dp)
+            .padding(horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         TextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .testTag(TestTags.LoginScreen.EMAIL),
             value = emailField,
             onValueChange = { emailField = it },
             label = { Text(text = "Email") },
         )
         TextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .testTag(TestTags.LoginScreen.PASSWORD),
             value = passwordField,
             onValueChange = { passwordField = it },
             label = { Text(text = "Password") },
             visualTransformation = PasswordVisualTransformation()
         )
-        Button(onClick = { }) {
+        Button(
+            modifier = Modifier
+                .fillMaxWidth()
+                .testTag(TestTags.LoginScreen.LOGIN_BUTTON),
+            onClick = {
+                onClick(emailField, passwordField)
+            }) {
             Text(text = "Login")
         }
     }
+}
+
+@Preview
+@Composable
+fun PreviewMainScreenContent() {
+    MainScreen(onClick = { _, _ -> })
 }
