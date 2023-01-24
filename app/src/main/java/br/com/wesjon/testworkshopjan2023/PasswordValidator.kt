@@ -1,34 +1,36 @@
 package br.com.wesjon.testworkshopjan2023
 
-import br.com.wesjon.testworkshopjan2023.model.PseudoDatabase
+import java.util.regex.Pattern
 
 class PasswordValidator {
-    companion object {
-        private val validations = listOf(
-            "[\\w\\W]{8,}",
-            "[A-Z]",
-            "[a-z]",
-            "[0-9]",
-            "[_\\W]",
-            "^(?=\\s*||S).*"
-        ).map { it.toRegex() }
+    companion object{
+        private const val MIN_PASSWORD_LENGTH = 8
+    }
+    fun isValid(password: String): Boolean {
+        return password.length >= MIN_PASSWORD_LENGTH
     }
 
-    fun isValid(password: String) = validations.all { password.contains(it) }
-
-
-    fun isInDatabase(email: String, password: String): Boolean {
-        val emailAuth = PseudoDatabase.filter { (k,_) -> k == email }
-
-        return if (emailAuth.isNotEmpty()) {
-            emailAuth.values.first() == password
-        } else false
+    fun isUppercase(password: String): Boolean {
+        val chars = password.toCharArray()
+        val upper = chars.filter { it.isUpperCase() }
+        return upper.isNotEmpty()
     }
 
-    fun login(email: String, password: String): Boolean {
-        val passwordValid = isValid(password)
-        val emailValid = email.contains("@") && email.isNotBlank()
+    fun isLowerCase(password: String): Boolean {
+        val chars = password.toCharArray()
+        val lower = chars.filter { it.isLowerCase() }
+        return lower.isNotEmpty()
+    }
 
-        return passwordValid && emailValid && isInDatabase(email, password)
+    fun isNumber(password: String): Boolean {
+        val chars = password.toCharArray()
+        val hasNumber = chars.filter { it.isDigit() }
+        return hasNumber.isNotEmpty()
+    }
+
+    fun isSpecialCharacter(password: String): Boolean {
+        val pattern = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE)
+        val hasSpecial = pattern.matcher(password)
+        return hasSpecial.find()
     }
 }

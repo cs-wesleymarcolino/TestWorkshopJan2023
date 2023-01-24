@@ -15,30 +15,26 @@ class PasswordValidatorTest {
     }
 
     @Test
-    fun givenEmailAndPasswordIsInDatabase_shouldReturnFalse(){
-        val result = passwordValidator.isInDatabase("anderson@acenture.com", "Soneca#45a")
-
-        assertFalse(result)
-    }
-
-    @Test
-    fun givenEmailAndPasswordIsInDatabase_shouldReturnTrue(){
-        val result = passwordValidator.isInDatabase("ricardo@accenture.com", "baNana*ç88")
-
+    fun givenPasswordIsALeastOneCharacterIsUppercase_shouldReturnTrue(){
+        val result = passwordValidator.isUppercase("Samanta")
         assertTrue(result)
     }
 
     @Test
-    fun givenEmailAndPassWordInLoginScreen_shouldReturnFalse(){
-        val result = passwordValidator.login("elisangelaaccenture.com", "saO8oito%")
-
-        assertFalse(result)
+    fun givenPasswordIsALeastOneCharacterIsLowercase_shouldReturnTrue(){
+        val result = passwordValidator.isLowerCase("Amelia")
+        assertTrue(result)
     }
 
     @Test
-    fun givenEmailAndPassWordInLoginScreen_shouldReturnTrue(){
-        val result = passwordValidator.login("elisangela@accenture.com", "saO8oito%")
+    fun givenPasswordIsALeastOneCharacterIsNumber_shouldReturnTrue(){
+        val result = passwordValidator.isNumber("Paulinho13")
+        assertTrue(result)
+    }
 
+    @Test
+    fun givenPasswordIsALeastOneCharacterIsSpecialCharacter_shouldReturnTrue(){
+        val result = passwordValidator.isSpecialCharacter("Vinicius@13")
         assertTrue(result)
     }
 
