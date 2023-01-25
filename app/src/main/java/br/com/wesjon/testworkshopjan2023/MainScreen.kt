@@ -16,13 +16,20 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.com.wesjon.testworkshopjan2023.presenter.HomeActivity
 
+@Composable
+fun MainScreen(onClick: (email: String, password: String) -> Unit) {
+    MainScreenContent(onClick)
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen() {
+fun MainScreenContent(onClick: (email: String, password: String) -> Unit) {
     var emailField by remember { mutableStateOf("") }
     var passwordField by remember { mutableStateOf("") }
     val validator = PasswordValidator()
@@ -36,27 +43,35 @@ fun MainScreen() {
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         TextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .testTag(TestTags.LoginScreen.EMAIL),
             value = emailField,
             onValueChange = { emailField = it },
             label = { Text(text = "Email") },
         )
         TextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .testTag(TestTags.LoginScreen.PASSWORD),
             value = passwordField,
             onValueChange = { passwordField = it },
             label = { Text(text = "Password") },
             visualTransformation = PasswordVisualTransformation()
         )
-        Button(onClick = {
-            if (validator.login(emailField, passwordField)) {
-                val home = Intent(context, HomeActivity::class.java)
-
-                context?.startActivity(home)
-                context?.finish()
-            }
-            else
-                Toast.makeText(context, "Erro: tem algo errado...", Toast.LENGTH_LONG).show()
+        Button(
+            modifier = Modifier.fillMaxWidth()
+                .testTag(TestTags.LoginScreen.LOGIN_BUTTON),
+            onClick = {
+            onClick(emailField, passwordField)
         }) {
             Text(text = "Login")
         }
     }
+}
+
+@Preview
+@Composable
+fun PreviewMainScreenContent() {
+    MainScreen(onClick = { _, _ -> })
 }
